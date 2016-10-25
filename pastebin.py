@@ -15,12 +15,12 @@ class paste(object):
 def create_paste(text, dev_key = API_DEV_KEY, paste_privacy = None,
                  user_key = None, name = None, format = None,
                  expire_date = None):
-    
+
     req = urllib2.Request("http://pastebin.com/api/api_post.php")
     data = {"api_option": "paste",
             "api_dev_key": dev_key,
             "api_paste_code": text}
-    
+
     if paste_privacy:
         data["api_paste_private"] = paste_privacy
     if user_key:
@@ -31,8 +31,21 @@ def create_paste(text, dev_key = API_DEV_KEY, paste_privacy = None,
         data["api_paste_format"] = format
     if expire_date:
         data["api_paste_expire_date"] = expire_date
-        
+
     req.add_data(urllib.urlencode(data))
     response = urllib2.urlopen(req)
-    
+
     return response.read()
+
+def get_user_key(username, password, dev_key = API_DEV_KEY):
+    # WARNING: THIS IS WILL SEND PASSWORDS UNENCRYPTED
+
+    req = urllib2.Request("http://pastebin.com/api/api_login.php")
+    data = {"api_dev_key": dev_key,
+            "api_user_name": username,
+            "api_user_password": password}
+
+    req.add_data(urllib.urlencode(data))
+    response = urllib2.urlopen(req)
+
+    return reponse.read()
