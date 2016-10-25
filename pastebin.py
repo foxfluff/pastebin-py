@@ -49,3 +49,19 @@ def get_user_key(username, password, dev_key = API_DEV_KEY):
     response = urllib2.urlopen(req)
 
     return reponse.read()
+
+def get_user_posts(user_key, dev_key = API_DEV_KEY, results_limit = None):
+    
+    req = urllib2.Request("http://pastebin.com/api/api_post.php")
+    data = {"api_option": "list",
+            "api_dev_key": dev_key,
+            "api_user_key": user_key}
+
+    if results_limit:
+        data["api_results_limit"] = results_limit
+
+    req.add_data(urllib.urlencode(data))
+    response = urllib2.urlopen(req)
+
+    return response.read()
+
